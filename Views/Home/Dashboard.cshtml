@@ -1,0 +1,48 @@
+@model  List<Wedding>
+
+
+<div class="row">
+    <h1 class="col-6">Welcome to Wedding Planner, @ViewBag.UserName!</h1>
+    <a class="col-6 text-right" asp-action="LogOut" asp-controller="Home">Log Out</a>
+</div>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Wedding</th>
+      <th scope="col">Date</th>
+      <th scope="col">Guest(s)</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach(var wedding in @Model)
+    {
+        <tr>
+            <td><a asp-action="WeddingDets" asp-controller="Home" asp-route-WedId="@wedding.WeddingId">@wedding.WedderOne and @wedding.WedderTwo</a></td>
+            <td>@wedding.Date</td>
+            <td>@wedding.AllGuests.Count</td>
+            <td>
+                @if(wedding.CreatorId != ViewBag.UserId)
+                {
+                    
+                    if(wedding.AllGuests.Any(g => g.UserId == ViewBag.UserId))
+                    {
+                        <a asp-action="UnRsvp" asp-controller="Home" asp-route-wedId="@wedding.WeddingId">UnRsvp</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Rsvp" asp-controller="Home" asp-route-wedId="@wedding.WeddingId">Rsvp</a>
+                    }
+                }
+                else
+                {
+                    <a asp-action="Delete" asp-controller="Home" asp-route-wedId="@wedding.WeddingId">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+</table>
+<div class="text-right">
+    <a class="btn btn-success" asp-action="CreateWedding" asp-controller="Home">Add a Wedding</a>
+</div>
