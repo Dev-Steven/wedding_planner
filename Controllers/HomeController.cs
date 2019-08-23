@@ -161,6 +161,8 @@ namespace wedding_planner.Controllers
         {
 
             var theWedding = dbContext.Weddings
+                .Include(w => w.AllGuests)
+                    .ThenInclude(g => g.Rsvped)
                 .FirstOrDefault(w => w.WeddingId == wedId);
             return View(theWedding);
         }
