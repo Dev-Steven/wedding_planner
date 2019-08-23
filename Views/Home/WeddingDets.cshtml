@@ -4,9 +4,16 @@
     <a class="col-3 text-center" asp-action="Dashboard" asp-controller="Home">Dashboard</a>
     <a class="col-3 text-right" asp-action="LogOut">Log Out</a>
 </div>
+<br>
 <h2>Date: @Model.Date</h2>
+<br>
 <h2>Guests:</h2>
 @foreach(var guest in @Model.AllGuests)
 {
     <h4>@guest.Rsvped.FirstName</h4>
 }
+@if(Model.CreatorId == ViewBag.UserId)
+{
+    <a class="btn btn-primary" asp-action="EditWed" asp-controller="Home" asp-route-wedId="@Model.WeddingId">Edit</a> 
+}
+

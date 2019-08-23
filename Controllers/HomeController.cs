@@ -119,10 +119,11 @@ namespace wedding_planner.Controllers
                     .FirstOrDefault(u => u.UserId == UserId);
                 ViewBag.UserName = user.FirstName;
 
-                IEnumerable<dynamic> allWeddings = dbContext.Weddings
+                var allWeddings = dbContext.Weddings
                     .Include(w => w.Creator)
                     .Include(w => w.AllGuests)
                        .ThenInclude(g => g.Rsvped)
+                    .OrderBy(w => w.Date)
                     .ToList();
 
                 return View("Dashboard", allWeddings);
@@ -159,7 +160,8 @@ namespace wedding_planner.Controllers
         [HttpGet("weddingdets")]
         public IActionResult WeddingDets(int wedId)
         {
-
+            ViewBag.UserId = HttpContext.Session.GetInt32("id");
+            
             var theWedding = dbContext.Weddings
                 .Include(w => w.AllGuests)
                     .ThenInclude(g => g.Rsvped)
@@ -213,6 +215,37 @@ namespace wedding_planner.Controllers
             // Delete the guest from that wedding
             
             return RedirectToAction("Dashboard");
+        }
+
+        [HttpGet("editwed/{wedId}")]
+        public IActionResult EditWed(int wedId)
+        {
+            ViewBag.CreatorId = HttpContext.Session.GetInt32("id");
+            Wedding WedToEdit = dbContext.Weddings
+                .FirstOrDefault(w => w.WeddingId == wedId);
+            return View(WedToEdit);
+        }
+
+        [HttpPost("edit/{wedId}")]
+        public IActionResult Edit(Wedding editWed, int wedId)
+        {
+            Wedding WedToEdit = dbContext.Weddings
+                .FirstOrDefault(w => w.WeddingId == wedId);
+
+            if(ModelState.IsValid)
+            {
+                WedToEdit.WedderOne = editWed.WedderOne;
+                WedToEdit.WedderTwo = editWed.WedderTwo;
+                WedToEdit.Date = editWed.Date;
+                WedToEdit.Address = editWed.Address;
+                dbContext.SaveChanges();
+
+                return RedirectToAction("WeddingDets", new{wedId = wedId});
+            }
+            else
+            {
+                return View("EditWed");
+            }
         }
     }
 }

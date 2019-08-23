@@ -3006,6 +3006,11 @@
       "FilePath": "Views/Home/Registration.cshtml",
       "TargetPath": "Views/Home/Registration.cshtml",
       "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views/Home/EditWed.cshtml",
+      "TargetPath": "Views/Home/EditWed.cshtml",
+      "FileKind": "mvc"
     }
   ],
   "SerializationFormat": "0.1"

@@ -1,0 +1,35 @@
+@model Wedding
+
+<h1>Edit @Model.WedderOne and @Model.WedderTwo's Wedding</h1>
+
+<form asp-action="Edit" asp-controller="Home" asp-route-wedId="@Model.WeddingId" method="post">
+    
+    <br>
+    <span class="text-danger" asp-validation-for="WedderOne"></span>
+    <br>
+    <label asp-for="WedderOne"></label>
+    <input class="form-control" asp-for="WedderOne">
+    <br>
+    <span class="text-danger" asp-validation-for="WedderTwo"></span>
+    <br>
+    <label asp-for="WedderTwo"></label>
+    <input class="form-control" asp-for="WedderTwo">
+    <br>
+    <span class="text-danger" asp-validation-for="Date"></span>
+    <br>
+    <label asp-for="Date"></label>
+    <input class="form-control" asp-for="Date">
+    <br>
+    <span class="text-danger" asp-validation-for="Address"></span>
+    <br>
+    <label asp-for="Address"></label>
+    <input class="form-control" asp-for="Address">
+    <br>
+    <div class="row">
+        <div class="col-2">
+            <button class="btn btn-success">Edit Wedding</button>
+        </div>
+        <a class="btn btn-danger" asp-action="Dashboard" asp-controller="Home">Cancel</a>
+    </div>
+
+</form>
